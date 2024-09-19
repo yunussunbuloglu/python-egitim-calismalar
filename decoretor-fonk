@@ -1,0 +1,52 @@
+import math
+import time
+
+def calculate_time(func):
+  def inner(args,*kwargs):
+    start = time.time()
+    time.sleep(1)
+    func(args,*kwargs)
+    end = time.time()
+    print("fonksiyon " + func. __name__ + " " + str(end-start) + " saniye sürdü") # _name_ ile fonksiyonun adını yazdırdık
+  return inner
+""" calculate_time fonksiyonu içerisindeki fonksiyonun ne kadar sürdüğünü hesaplayan bir fonksiyon yaptık. Böylelikle her fonksiyonda işlem süresi hesaplatmak yerine bu fonksiyon ile hesaplama yaptıralabilir."""
+def my_decorator(func):
+
+  def wrapper():
+    print("fonksiyondan önceki işlemler")
+    func()
+    print("fonksiyondan sonraki işlemler")
+  return wrapper
+""" wrapper() fonksiyonuna bir değişken atamadığımız için bu fonksiyonla ilişkili tüm fonksiyonlara değişken ataması yapılmadı.
+    sayHellow() fonksiyonuna değişken ataması yapılırsa hata alınır. Eğer sayHello fonksiyonuna değişken atamamız gerekiyorsa
+    bu değişkeni wrapper ve func fonksiyonlarına da atamalıyız.
+"""
+@my_decorator  #17 ve 20. satırdaki işlemlerin kısa yolu bu şekilde kullanılabilir. Buna decorator söz dizimi denir.
+def my_function():
+  print("merhaba")
+def sayHello():
+  print("Hello")
+
+def sayGreeting():
+  print("greeting")
+
+sayHello = my_decorator(sayHello)   # my_decorator fonksiyonu sayHello saniye)
+
+sayGreeting = my_decorator(sayGreeting) # my_decorator fonksiyonu sayGreeting fonksiyonuna atadık
+sayGreeting()
+
+@calculate_time
+def usalma(a,b):
+  print(math.pow(a,b))
+
+@calculate_time
+def factoriyel(a):
+  print(math.factorial(a))
+
+@calculate_time
+def toplama(a,b):
+  print(a+b)
+
+usalma(2,3)
+factoriyel(5)
+toplama(10,20)
